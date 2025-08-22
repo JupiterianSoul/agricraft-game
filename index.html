@@ -7,12 +7,14 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Barre supérieure : ressources, météo, horloge -->
   <header id="top-bar" role="banner">
     <div id="resources-panel" aria-label="Ressources">Argent : 0¢</div>
-    <div id="weather-display" aria-label="Météo">Météo : ensoleillé</div>
+    <div id="weather-display" aria-label="Météo">Météo : –</div>
     <div id="clock-display" aria-label="Horloge">00:00</div>
   </header>
 
+  <!-- Contenu principal : sidebar + zone de jeu -->
   <main id="game-layout" role="main">
     <aside id="sidebar" role="complementary">
       <section id="seed-selector">
@@ -34,6 +36,7 @@
     </section>
   </main>
 
+  <!-- Barre inférieure : quêtes, journal, paramètres -->
   <footer id="bottom-bar" role="contentinfo">
     <div id="quests-panel" aria-label="Quêtes"></div>
     <div id="journal-panel" aria-label="Journal"></div>
@@ -42,9 +45,12 @@
             aria-label="Paramètres">⚙️</button>
   </footer>
 
+  <!-- Conteneurs dynamiques -->
   <div id="modal-container" aria-live="polite"></div>
   <div id="toast-container" aria-live="assertive"></div>
 
+  <!-- Script principal -->
   <script src="main.js"></script>
 </body>
 </html>
+
