@@ -1,0 +1,317 @@
+/* styles.css - Thème clair/sombre, palettes daltonisme, variables globales */
+:root {
+  /* Typographie & Espacements */
+  --font-sans: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Courier New", Courier, monospace;
+  --fs-xs: clamp(0.75rem, 1.5vw, 0.875rem);
+  --fs-s: clamp(0.875rem, 2vw, 1rem);
+  --fs-m: clamp(1rem, 2.5vw, 1.125rem);
+  --fs-l: clamp(1.125rem, 3vw, 1.25rem);
+  --space-xs: 0.25rem;
+  --space-s: 0.5rem;
+  --space-m: 1rem;
+  --space-l: 1.5rem;
+  --space-xl: 2rem;
+
+  /* Couleurs Thème Clair */
+  --bg: #f5f5f5;
+  --panel-bg: #ffffff;
+  --text: #222222;
+  --primary: #4caf50;
+  --primary-hover: #45a049;
+  --secondary: #ff9800;
+  --accent: #03a9f4;
+  --success: #8bc34a;
+  --warning: #ffc107;
+  --error: #f44336;
+  --border: #ddd;
+  --tooltip-bg: rgba(0, 0, 0, 0.75);
+  --tooltip-text: #ffffff;
+
+  /* Daltonisme palettes (safe) */
+  --safe-1: #1170aa;
+  --safe-2: #ffb81c;
+  --safe-3: #d71920;
+  --safe-4: #009e73;
+  --safe-5: #f0e442;
+  --safe-6: #0072b2;
+  --safe-7: #e69f00;
+  --safe-8: #56b4e9;
+
+  /* Transitions & Animation Durées */
+  --transition: 0.2s ease-in-out;
+  --toast-duration: 0.3s;
+}
+
+/* Mode sombre */
+[data-theme="dark"] {
+  --bg: #1e1e1e;
+  --panel-bg: #2c2c2c;
+  --text: #e0e0e0;
+  --border: #444;
+  --tooltip-bg: rgba(255, 255, 255, 0.85);
+  --tooltip-text: #111;
+}
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--fs-s);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.4;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Layout principal (grid) */
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: 
+    "header"
+    "main"
+    "footer";
+  height: 100vh;
+  overflow: hidden;
+}
+
+header#top-bar {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--panel-bg);
+  padding: var(--space-s) var(--space-m);
+  border-bottom: 1px solid var(--border);
+}
+
+main#game-layout {
+  grid-area: main;
+  display: flex;
+  overflow: hidden;
+}
+
+aside#sidebar {
+  width: clamp(200px, 20%, 300px);
+  background: var(--panel-bg);
+  border-right: 1px solid var(--border);
+  padding: var(--space-m);
+  overflow-y: auto;
+}
+
+section#game-container {
+  flex: 1;
+  position: relative;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+footer#bottom-bar {
+  grid-area: footer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--panel-bg);
+  padding: var(--space-s) var(--space-m);
+  border-top: 1px solid var(--border);
+}
+
+/* Panels internes */
+#resources-panel,
+#weather-display,
+#clock-display,
+#quests-panel,
+#journal-panel {
+  font-size: var(--fs-xs);
+  margin: 0 var(--space-s);
+}
+
+/* Boutons & Contrôles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-s) var(--space-m);
+  font-size: var(--fs-s);
+  border-radius: 4px;
+  transition: background var(--transition), transform var(--transition);
+  user-select: none;
+}
+
+.btn--primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn--primary:hover,
+.btn--primary:focus {
+  background: var(--primary-hover);
+}
+
+.btn--secondary {
+  background: var(--secondary);
+  color: #fff;
+}
+
+.btn:disabled,
+.btn.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tooltips */
+.tooltip {
+  position: absolute;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-text);
+  padding: var(--space-xs) var(--space-s);
+  border-radius: 4px;
+  font-size: var(--fs-xs);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition);
+  z-index: 1000;
+}
+
+.tooltip--visible {
+  opacity: 1;
+}
+
+/* Modals */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: clamp(280px, 80%, 600px);
+  max-height: 90vh;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  transition: transform var(--transition), opacity var(--transition);
+  overflow-y: auto;
+  z-index: 2000;
+}
+
+.modal--open {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.modal__header,
+.modal__footer {
+  padding: var(--space-s) var(--space-m);
+  border-bottom: 1px solid var(--border);
+}
+
+.modal__footer {
+  border-top: 1px solid var(--border);
+  border-bottom: none;
+  text-align: right;
+}
+
+/* Toasts / Notifications */
+.toast {
+  position: fixed;
+  bottom: var(--space-l);
+  right: var(--space-l);
+  background: var(--panel-bg);
+  color: var(--text);
+  padding: var(--space-s) var(--space-m);
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: toast-in var(--toast-duration) forwards;
+  z-index: 1500;
+}
+
+@keyframes toast-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* States & Utilitaires */
+.hidden {
+  display: none !important;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  border: 0;
+}
+
+.is-loading {
+  cursor: progress !important;
+}
+
+[disabled] {
+  cursor: not-allowed;
+}
+
+/* Responsive & Touch Targets */
+@media (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+@media (max-width: 768px) {
+  aside#sidebar {
+    display: none;
+  }
+  main#game-layout {
+    flex-direction: column;
+  }
+  footer#bottom-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Scrollbar stylisée */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
